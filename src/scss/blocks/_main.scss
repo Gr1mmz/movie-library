@@ -1,0 +1,16 @@
+.main {
+    padding: 50px 0;
+    &__wrapper {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 210px);
+        gap: 22px;
+        justify-content: center;
+    }
+    &__item {
+        height: 300px;
+        width: 210px;
+        background-color: #e2e2e2;
+        border: 1px solid #868686;
+    }
+}

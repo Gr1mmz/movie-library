@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Movie Library</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/style.min.css" />
+    </head>
+    <body>
+        <div class="overlay"></div>
+        <div class="modal modal-add">
+            <div class="modal__header">
+                <div class="modal__header-text">
+                    Введите последние просмотренные вами фильмы
+                </div>
+                <a href="#" class="modal__close">&times;</a>
+            </div>
+            <div class="modal__wrapper">
+                <div class="modal-add__table">
+                    <div class="modal-add__table-items">
+                        <div class="modal-add__item">
+                            <div class="item__number">1.</div>
+                            <input
+                                type="text"
+                                placeholder="Введите название фильма"
+                            />
+                            <select name="rate" id="rate">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option selected value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <a href="#" class="modal-add__add-item"
+                        >+ Добавить еще один фильм</a
+                    >
+                </div>
+            </div>
+            <div class="modal__footer">
+                <a href="#" class="btn btn_modal-submit">Готово</a>
+            </div>
+        </div>
+        <header class="header">
+            <div class="container">
+                <div class="header__wrapper">
+                    <div class="header__avatar">
+                        <img src="img/no_avatar.jpeg" alt="avatar" />
+                    </div>
+                    <div class="header__text">
+                        <div class="header__name">Name</div>
+                        <div class="header__status">Киноман</div>
+                        <div class="header__info">Любимые жанры:</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="container">
+                <div class="main__buttons">
+                    <a href="#" class="btn btn_add">Добавить фильм</a>
+                    <a href="#" class="btn btn_request">Подобрать фильм</a>
+                </div>
+                <div class="main__wrapper">
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                    <div class="main__item"></div>
+                </div>
+            </div>
+        </main>
+        <script src="js/script.js"></script>
+    </body>
+</html>

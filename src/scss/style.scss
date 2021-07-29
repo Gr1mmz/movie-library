@@ -1,0 +1,19 @@
+@import "libs/bootstrap-reboot.min";
+@import "base/variables";
+@import "base/mixins";
+@import "base/buttons";
+// @import "libs/normalize";
+
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
+.container {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+@import "blocks/overlay";
+@import "blocks/header";
+@import "blocks/main";
+@import "blocks/modals";

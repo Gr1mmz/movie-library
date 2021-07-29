@@ -1,0 +1,29 @@
+.header {
+    height: 140px;
+    padding: 20px 0;
+    background-color: #e2e2e2;
+    &__wrapper {
+        display: flex;
+        gap: 20px;
+    }
+    &__avatar {
+        height: 100px;
+        width: 100px;
+        border: 1px solid #868686;
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    &__text {
+        align-self: center;
+    }
+    &__name {
+        font-size: 24px;
+    }
+    &__status {
+        font-size: 18px;
+        color: #868686;
+    }
+}
