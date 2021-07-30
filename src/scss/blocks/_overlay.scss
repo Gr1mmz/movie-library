@@ -6,6 +6,7 @@
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.3);
     transition: opacity 0.8s;
+    z-index: 10;
     &_active {
         display: block;
         opacity: 1;

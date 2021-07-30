@@ -1,5 +1,5 @@
 .btn {
-    background-color: #4828d6;
+    background-color: $accent-color;
     color: #fff;
     text-decoration: none;
     transition: all 0.3s;
@@ -10,7 +10,7 @@
         text-decoration: none;
     }
     &:active {
-        background-color: #3e23b6;
+        background-color: $accent-color-hover;
     }
     &_modal-submit {
         display: inline-block;

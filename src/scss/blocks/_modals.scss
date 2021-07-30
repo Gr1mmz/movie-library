@@ -11,6 +11,7 @@
     display: none;
     opacity: 0;
     transition: opacity 0.8s;
+    z-index: 11;
     &__wrapper {
         overflow: scroll;
         max-height: 60vh;
@@ -30,9 +31,9 @@
         right: 55px;
         font-size: 40px;
         line-height: 40px;
-        color: #4828d6;
+        color: $accent-color;
         &:hover {
-            color: #3e23b6;
+            color: $accent-color-hover;
             text-decoration: none;
         }
     }

@@ -1,7 +1,7 @@
 .header {
     height: 140px;
     padding: 20px 0;
-    background-color: #e2e2e2;
+    background-color: $gray-light;
     &__wrapper {
         display: flex;
         gap: 20px;
@@ -9,7 +9,7 @@
     &__avatar {
         height: 100px;
         width: 100px;
-        border: 1px solid #868686;
+        border: 1px solid $gray-dark;
         img {
             height: 100%;
             width: 100%;
@@ -24,6 +24,6 @@
     }
     &__status {
         font-size: 18px;
-        color: #868686;
+        color: $gray-dark;
     }
 }

@@ -28,8 +28,10 @@
                         <div class="modal-add__item">
                             <div class="item__number">1.</div>
                             <input
+                                class="modal-add__movie-name"
                                 type="text"
                                 placeholder="Введите название фильма"
+                                required
                             />
                             <select name="rate" id="rate">
                                 <option value="1">1</option>
@@ -51,7 +53,9 @@
                 </div>
             </div>
             <div class="modal__footer">
-                <a href="#" class="btn btn_modal-submit">Готово</a>
+                <a href="#" class="btn btn_modal-submit modal-add__submit"
+                    >Готово</a
+                >
             </div>
         </div>
         <header class="header">
@@ -75,16 +79,10 @@
                     <a href="#" class="btn btn_request">Подобрать фильм</a>
                 </div>
                 <div class="main__wrapper">
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
-                    <div class="main__item"></div>
+                    <!-- <div class="main__item">
+                        <div class="main__item-header">Logan</div>
+                        <div class="main__item-rate">&#9733; 8</div>
+                    </div> -->
                 </div>
             </div>
         </main>

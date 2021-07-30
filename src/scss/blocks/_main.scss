@@ -8,9 +8,38 @@
         justify-content: center;
     }
     &__item {
+        position: relative;
         height: 300px;
         width: 210px;
-        background-color: #e2e2e2;
-        border: 1px solid #868686;
+        background-color: $gray-light;
+        border: 1px solid $gray-dark;
+        font-weight: 700;
+        color: #fff;
+        transition: all 0.5s;
+        &-header,
+        &-rate {
+            opacity: 0;
+            transition: all 0.5s;
+        }
+        &-header {
+            font-size: 24px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+        &-rate {
+            font-size: 16px;
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            color: gold;
+        }
+        &:hover {
+            box-shadow: inset 0px 0px 55px 5px rgba(0, 0, 0, 0.3);
+            .main__item-header,
+            .main__item-rate {
+                opacity: 1;
+            }
+        }
     }
 }
