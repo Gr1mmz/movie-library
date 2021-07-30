@@ -60,7 +60,7 @@
             gap: 10px;
             align-items: stretch;
             margin-bottom: 10px;
-            &__number {
+            div {
                 align-self: center;
             }
             input {
@@ -69,7 +69,6 @@
         }
         &__add-item {
             display: inline-block;
-            // margin-top: 10px;
         }
     }
 }

@@ -11,7 +11,7 @@
         position: relative;
         height: 300px;
         width: 210px;
-        background-color: $gray-light;
+        background-color: #000;
         border: 1px solid $gray-dark;
         font-weight: 700;
         color: #fff;
@@ -19,6 +19,7 @@
         &-header,
         &-rate {
             opacity: 0;
+            z-index: 5;
             transition: all 0.5s;
         }
         &-header {
@@ -34,8 +35,20 @@
             right: 10px;
             color: gold;
         }
+        &-image {
+            height: 100%;
+            width: 100%;
+            transition: all 0.5s;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            &:hover {
+                opacity: 0.5;
+            }
+        }
         &:hover {
-            box-shadow: inset 0px 0px 55px 5px rgba(0, 0, 0, 0.3);
             .main__item-header,
             .main__item-rate {
                 opacity: 1;

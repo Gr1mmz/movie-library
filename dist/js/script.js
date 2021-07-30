@@ -1,3 +1,14 @@
+// TMDB API
+
+const API_KEY = "617bdf73d3624d01c9238fbe9d4643b0",
+    BASE_URL = "https://api.themoviedb.org/3",
+    API_URL = BASE_URL + "",
+    API_LANG = "&language=ru",
+    IMG_URL = "/movie/550/images?api_key=",
+    IMG_LANG = "&language=en-US&include_image_language=en,null";
+
+//app variables
+
 const movieLibrary = {
         count: 0,
         movies: {},
@@ -101,9 +112,11 @@ modalAddSubmit.addEventListener("click", () => {
                 ".modal-add__movie-name"
             ),
             modalAddMovieRate = document.querySelectorAll("#rate");
-        movieLibrary.movies[modalAddMovieName[i].value] =
-            modalAddMovieRate[i].value;
-        addMainItem(modalAddMovieName[i].value, modalAddMovieRate[i].value);
+        if (modalAddMovieName[i].value != "") {
+            movieLibrary.movies[modalAddMovieName[i].value] =
+                modalAddMovieRate[i].value;
+            addMainItem(modalAddMovieName[i].value, modalAddMovieRate[i].value);
+        }
     }
     closeModals();
     clearAddModal();
