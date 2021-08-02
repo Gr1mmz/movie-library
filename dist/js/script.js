@@ -91,15 +91,6 @@ btnLibrary.addEventListener("click", () => {
 function showLibrary() {
     mainWrapper.innerHTML = "";
     for (let movie in movieLibrary.movies) {
-        // const movieEl = document.createElement("div");
-        // movieEl.classList.add("main__item");
-        // movieEl.innerHTML = `
-        // <div class="main__item-header>${movieLibrary.movies[i]}</div>
-        // <div class="main__item-rate">&#9733; ${vote_average}</div>
-        // <div class="main__item-image">
-        //     <img src="${IMG_URL + poster_path}" alt="poster" />
-        // </div>`;
-        // mainWrapper.appendChild(movieEl);
         addMainItem(movie, movieLibrary.movies[movie]);
     }
 }
