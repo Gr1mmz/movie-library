@@ -23,7 +23,9 @@
             transition: all 0.5s;
         }
         &-header {
-            font-size: 24px;
+            width: 90%;
+            font-size: 20px;
+            line-height: 24px;
             position: absolute;
             top: 5px;
             left: 10px;
@@ -44,14 +46,14 @@
                 height: 100%;
                 object-fit: cover;
             }
-            &:hover {
-                opacity: 0.5;
-            }
         }
         &:hover {
             .main__item-header,
             .main__item-rate {
                 opacity: 1;
+            }
+            .main__item-image {
+                opacity: 0.5;
             }
         }
     }

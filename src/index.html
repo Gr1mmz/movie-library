@@ -53,30 +53,42 @@
                 </div>
             </div>
             <div class="modal__footer">
-                <a href="#" class="btn btn_modal-submit modal-add__submit"
-                    >Готово</a
-                >
+                <a href="#" class="btn btn_modal-submit modal-add__submit">
+                    Готово
+                </a>
             </div>
         </div>
         <header class="header">
             <div class="container">
                 <div class="header__wrapper">
-                    <div class="header__avatar">
-                        <img src="img/no_avatar.jpeg" alt="avatar" />
+                    <div class="header__info">
+                        <div class="header__avatar">
+                            <img src="img/no_avatar.jpeg" alt="avatar" />
+                        </div>
+                        <div class="header__text">
+                            <div class="header__name">Name</div>
+                            <div class="header__status">Киноман</div>
+                            <div class="header__info">Любимые жанры:</div>
+                        </div>
                     </div>
-                    <div class="header__text">
-                        <div class="header__name">Name</div>
-                        <div class="header__status">Киноман</div>
-                        <div class="header__info">Любимые жанры:</div>
-                    </div>
+                    <form id="searchForm">
+                        <input
+                            type="text"
+                            placeholder="Найти фильм"
+                            id="searchInput"
+                            class="header__search"
+                        />
+                    </form>
                 </div>
             </div>
         </header>
         <main class="main">
             <div class="container">
                 <div class="main__buttons">
+                    <a href="#" class="btn btn_library">Мои фильмы</a>
                     <a href="#" class="btn btn_add">Добавить фильм</a>
                     <a href="#" class="btn btn_request">Подобрать фильм</a>
+                    <a href="#" class="btn btn_popular">Популярные сейчас</a>
                 </div>
                 <div class="main__wrapper">
                     <div class="main__item">

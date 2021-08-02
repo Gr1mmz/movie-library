@@ -4,7 +4,26 @@
     background-color: $gray-light;
     &__wrapper {
         display: flex;
+        justify-content: space-between;
+    }
+    &__info {
+        display: flex;
         gap: 20px;
+    }
+    #searchForm {
+        align-self: center;
+    }
+    &__search {
+        height: 40px;
+        width: 300px;
+        border-radius: 0px;
+        border-width: 1px;
+        border-color: $gray-light;
+        padding: 0px 10px;
+        outline: none;
+        &:focus {
+            border: 1px solid #000;
+        }
     }
     &__avatar {
         height: 100px;

@@ -1,11 +1,21 @@
 // TMDB API
 
-const API_KEY = "617bdf73d3624d01c9238fbe9d4643b0",
+const API_KEY = "api_key=617bdf73d3624d01c9238fbe9d4643b0",
     BASE_URL = "https://api.themoviedb.org/3",
-    API_URL = BASE_URL + "",
     API_LANG = "&language=ru",
-    IMG_URL = "/movie/550/images?api_key=",
-    IMG_LANG = "&language=en-US&include_image_language=en,null";
+    REQUEST_POPULAR =
+        BASE_URL +
+        "/discover/movie?sort_by=popularity.desc&" +
+        API_KEY +
+        API_LANG,
+    API_SEARCH = BASE_URL + "/search/movie?" + API_KEY,
+    API_URL = BASE_URL + REQUEST_POPULAR + API_KEY + API_LANG,
+    IMG_URL = "https://image.tmdb.org/t/p/w500",
+    IMG_PATH = "",
+    IMG_LANG = "&language=ru-US&include_image_language=ru,null";
+
+// search request https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+// movie request https://api.themoviedb.org/3/movie/550?api_key=617bdf73d3624d01c9238fbe9d4643b0
 
 //app variables
 
@@ -17,6 +27,8 @@ const movieLibrary = {
         private: false,
     },
     btnAdd = document.querySelector(".btn_add"),
+    btnPopular = document.querySelector(".btn_popular"),
+    btnLibrary = document.querySelector(".btn_library"),
     overlay = document.querySelector(".overlay"),
     modalClose = document.querySelectorAll(".modal__close"),
     modals = document.querySelectorAll(".modal"),
@@ -24,7 +36,44 @@ const movieLibrary = {
     modalAddAddItem = document.querySelector(".modal-add__add-item"),
     modalAddTable = document.querySelector(".modal-add__table-items"),
     modalAddSubmit = document.querySelector(".modal-add__submit"),
-    mainWrapper = document.querySelector(".main__wrapper");
+    mainWrapper = document.querySelector(".main__wrapper"),
+    searchForm = document.getElementById("searchForm"),
+    searchInput = document.getElementById("searchInput");
+
+// API FUNCTIONS
+
+function getMovies(url) {
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            showMovies(data.results);
+        });
+}
+
+function showMovies(data) {
+    mainWrapper.innerHTML = "";
+    data.forEach((movie) => {
+        const { title, poster_path, vote_average, id } = movie;
+        const movieEl = document.createElement("div");
+        movieEl.classList.add("main__item");
+        movieEl.innerHTML = `
+        <div class="main__item-header data-movie-id=${id}">${title}</div>
+        <div class="main__item-rate">&#9733; ${vote_average}</div>
+        <div class="main__item-image">
+            <img src="${IMG_URL + poster_path}" alt="poster" />
+        </div>`;
+        mainWrapper.appendChild(movieEl);
+    });
+}
+
+//Search
+
+searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (searchInput.value) {
+        getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
+    }
+});
 
 // Buttons
 
@@ -32,6 +81,28 @@ btnAdd.addEventListener("click", () => {
     overlay.classList.add("overlay_active");
     modalAdd.classList.add("modal_active");
 });
+btnPopular.addEventListener("click", () => {
+    getMovies(REQUEST_POPULAR);
+});
+btnLibrary.addEventListener("click", () => {
+    showLibrary();
+});
+
+function showLibrary() {
+    mainWrapper.innerHTML = "";
+    for (let movie in movieLibrary.movies) {
+        // const movieEl = document.createElement("div");
+        // movieEl.classList.add("main__item");
+        // movieEl.innerHTML = `
+        // <div class="main__item-header>${movieLibrary.movies[i]}</div>
+        // <div class="main__item-rate">&#9733; ${vote_average}</div>
+        // <div class="main__item-image">
+        //     <img src="${IMG_URL + poster_path}" alt="poster" />
+        // </div>`;
+        // mainWrapper.appendChild(movieEl);
+        addMainItem(movie, movieLibrary.movies[movie]);
+    }
+}
 
 // Modals
 
