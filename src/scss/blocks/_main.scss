@@ -3,20 +3,21 @@
     &__wrapper {
         margin-top: 50px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, 210px);
+        grid-template-columns: repeat(auto-fit, 260px);
         gap: 22px;
         justify-content: center;
     }
     &__item {
         position: relative;
-        height: 300px;
-        width: 210px;
+        height: 380px;
+        width: 260px;
         background-color: #000;
         border: 1px solid $gray-dark;
         font-weight: 700;
         color: #fff;
         transition: all 0.5s;
         &-header,
+        &-genres,
         &-rate {
             opacity: 0;
             z-index: 5;
@@ -29,6 +30,20 @@
             position: absolute;
             top: 5px;
             left: 10px;
+        }
+        &-genres {
+            position: absolute;
+            bottom: 35px;
+            left: 10px;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 13px;
+        }
+        &-genre {
+            color: #fff;
+            padding: 4px 10px;
+            background-color: $gray-dark;
+            border-radius: 5px;
         }
         &-rate {
             font-size: 16px;
@@ -49,6 +64,7 @@
         }
         &:hover {
             .main__item-header,
+            .main__item-genres,
             .main__item-rate {
                 opacity: 1;
             }

@@ -8,7 +8,85 @@ const API_KEY = "api_key=617bdf73d3624d01c9238fbe9d4643b0",
         "/discover/movie?sort_by=popularity.desc&" +
         API_KEY +
         API_LANG,
-    API_SEARCH = BASE_URL + "/search/movie?" + API_KEY,
+    GENRES = [
+        {
+            id: 28,
+            name: "боевик",
+        },
+        {
+            id: 12,
+            name: "приключения",
+        },
+        {
+            id: 16,
+            name: "мультфильм",
+        },
+        {
+            id: 35,
+            name: "комедия",
+        },
+        {
+            id: 80,
+            name: "криминал",
+        },
+        {
+            id: 99,
+            name: "документальный",
+        },
+        {
+            id: 18,
+            name: "драма",
+        },
+        {
+            id: 10751,
+            name: "семейный",
+        },
+        {
+            id: 14,
+            name: "фэнтези",
+        },
+        {
+            id: 36,
+            name: "история",
+        },
+        {
+            id: 27,
+            name: "ужасы",
+        },
+        {
+            id: 10402,
+            name: "музыка",
+        },
+        {
+            id: 9648,
+            name: "детектив",
+        },
+        {
+            id: 10749,
+            name: "мелодрама",
+        },
+        {
+            id: 878,
+            name: "фантастика",
+        },
+        {
+            id: 10770,
+            name: "телевизионный фильм",
+        },
+        {
+            id: 53,
+            name: "триллер",
+        },
+        {
+            id: 10752,
+            name: "военный",
+        },
+        {
+            id: 37,
+            name: "вестерн",
+        },
+    ],
+    API_SEARCH = BASE_URL + "/search/movie?" + API_KEY + "",
     API_URL = BASE_URL + REQUEST_POPULAR + API_KEY + API_LANG,
     IMG_URL = "https://image.tmdb.org/t/p/w500",
     IMG_PATH = "",
@@ -53,16 +131,36 @@ function getMovies(url) {
 function showMovies(data) {
     mainWrapper.innerHTML = "";
     data.forEach((movie) => {
-        const { title, poster_path, vote_average, id } = movie;
+        const { title, poster_path, vote_average, id, genre_ids } = movie;
         const movieEl = document.createElement("div");
+        let movieGenre = "";
+        for (let i = 0; i < GENRES.length; i++) {
+            if (genre_ids[0] == GENRES[i].id) {
+                movieGenre = GENRES[i].name;
+            }
+        }
         movieEl.classList.add("main__item");
+        movieEl.dataset.movieId = id;
         movieEl.innerHTML = `
-        <div class="main__item-header data-movie-id=${id}">${title}</div>
+        <div class="main__item-header">${title}</div>
+        <div class="main__item-genres">
+            <a href="#" class="main__item-genre">${movieGenre}</a>
+        </div>
         <div class="main__item-rate">&#9733; ${vote_average}</div>
         <div class="main__item-image">
             <img src="${IMG_URL + poster_path}" alt="poster" />
         </div>`;
         mainWrapper.appendChild(movieEl);
+    });
+    document.querySelectorAll(".main__item-genre").forEach((el) => {
+        if (el.innerHTML == "") {
+            el.remove();
+        }
+    });
+    document.querySelectorAll(".main__item-image img").forEach((el) => {
+        if (el.getAttribute("src") == "https://image.tmdb.org/t/p/w500null") {
+            el.setAttribute("src", "img/poster.png");
+        }
     });
 }
 
@@ -144,8 +242,9 @@ function addMainItem(name, rate) {
 }
 
 modalAddAddItem.addEventListener("click", () => {
-    modalAddTable.innerHTML += `<div class="modal-add__item">
-    <div class="item__number">${
+    let tableEl = document.createElement("div");
+    tableEl.classList.add("modal-add__item");
+    tableEl.innerHTML = `<div class="item__number">${
         document.querySelectorAll(".modal-add__item").length + 1
     }.</div>
     <input class="modal-add__movie-name" type="text" placeholder="Введите название фильма" required/>
@@ -160,8 +259,9 @@ modalAddAddItem.addEventListener("click", () => {
         <option selected value="8">8</option>
         <option value="9">9</option>
         <option value="10">10</option>
-    </select>
-</div>`;
+    </select>`;
+    modalAddTable.appendChild(tableEl);
+    modalAddAddItem.scrollIntoView();
 });
 
 modalAddSubmit.addEventListener("click", () => {
