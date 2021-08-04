@@ -104,9 +104,9 @@ const movieLibrary = {
         genres: [],
         private: false,
     },
-    btnAdd = document.querySelector(".btn_add"),
-    btnPopular = document.querySelector(".btn_popular"),
-    btnLibrary = document.querySelector(".btn_library"),
+    btnAdd = document.querySelector("#btnAdd"),
+    btnPopular = document.querySelector("#btnPopular"),
+    btnLibrary = document.querySelector("#btnLibrary"),
     overlay = document.querySelector(".overlay"),
     modalClose = document.querySelectorAll(".modal__close"),
     modals = document.querySelectorAll(".modal"),
@@ -189,7 +189,6 @@ btnLibrary.addEventListener("click", () => {
 function showLibrary() {
     mainWrapper.innerHTML = "";
     for (let movie in movieLibrary.movies) {
-        // addMainItem(movie, movieLibrary.movies[movie]);
         getMovieInfo(API_SEARCH + "&query=" + movie + API_LANG);
     }
 }

@@ -1,6 +1,6 @@
 .btn {
-    background-color: $accent-color;
-    color: #fff;
+    background-color: $bg-purple;
+    color: #fff !important;
     text-decoration: none;
     transition: all 0.3s;
     padding: 8px 20px;
@@ -16,5 +16,8 @@
         display: inline-block;
         margin: 0 auto;
         margin-top: 10px;
+    }
+    &-radius {
+        border-radius: 30px;
     }
 }

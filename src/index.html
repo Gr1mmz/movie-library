@@ -61,7 +61,38 @@
         <header class="header">
             <div class="container">
                 <div class="header__wrapper">
-                    <div class="header__info">
+                    <nav class="header__menu-wrapper">
+                        <ul class="header__menu">
+                            <li>
+                                <a
+                                    href="#"
+                                    class="header__menu-item"
+                                    id="btnLibrary"
+                                    >Библиотека</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="header__menu-item"
+                                    id="btnAdd"
+                                    >Добавить фильм</a
+                                >
+                            </li>
+                            <li>
+                                <a href="#" class="header__menu-item">Жанры</a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="header__menu-item"
+                                    id="btnPopular"
+                                    >Популярные сейчас</a
+                                >
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- <div class="header__info">
                         <div class="header__avatar">
                             <img src="img/no_avatar.jpeg" alt="avatar" />
                         </div>
@@ -70,26 +101,32 @@
                             <div class="header__status">Киноман</div>
                             <div class="header__info">Любимые жанры:</div>
                         </div>
+                    </div> -->
+                    <div class="header__account">
+                        <a href="#" class="header__account-item">Аккаунт</a>
+                        <a href="#" class="header__account-item btn btn-radius"
+                            >Войти</a
+                        >
                     </div>
-                    <form id="searchForm">
-                        <input
-                            type="text"
-                            placeholder="Найти фильм"
-                            id="searchInput"
-                            class="header__search"
-                        />
-                    </form>
                 </div>
+                <form id="searchForm">
+                    <input
+                        type="text"
+                        placeholder="Найти фильм"
+                        id="searchInput"
+                        class="header__search"
+                    />
+                </form>
             </div>
         </header>
         <main class="main">
             <div class="container">
-                <div class="main__buttons">
+                <!-- <div class="main__buttons">
                     <a href="#" class="btn btn_library">Мои фильмы</a>
                     <a href="#" class="btn btn_add">Добавить фильм</a>
                     <a href="#" class="btn btn_request">Подобрать фильм</a>
                     <a href="#" class="btn btn_popular">Популярные сейчас</a>
-                </div>
+                </div> -->
                 <div class="main__wrapper"></div>
             </div>
         </main>

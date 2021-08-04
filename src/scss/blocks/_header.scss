@@ -1,7 +1,29 @@
 .header {
-    height: 140px;
     padding: 20px 0;
-    background-color: $gray-light;
+    background-color: $bg-dark;
+    &__menu,
+    &__account {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-transform: uppercase;
+        font-size: 13px;
+        &-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        &-item {
+            color: $header-links;
+            transition: all 0.3s;
+            &:hover {
+                color: $header-links-hover;
+                text-decoration: none;
+            }
+        }
+    }
     &__wrapper {
         display: flex;
         justify-content: space-between;
@@ -12,37 +34,15 @@
     }
     #searchForm {
         align-self: center;
-    }
-    &__search {
-        height: 40px;
-        width: 300px;
-        border-radius: 0px;
-        border-width: 1px;
-        border-color: $gray-light;
-        padding: 0px 10px;
-        outline: none;
-        &:focus {
-            border: 1px solid #000;
-        }
-    }
-    &__avatar {
-        height: 100px;
-        width: 100px;
-        border: 1px solid $gray-dark;
-        img {
-            height: 100%;
+        margin-top: 10px;
+        input {
+            height: 40px;
             width: 100%;
-            object-fit: cover;
+            background-color: $bg-light;
+            border: 1px solid $bg-light;
+            padding: 0px 10px;
+            color: $header-links;
+            outline: none;
         }
-    }
-    &__text {
-        align-self: center;
-    }
-    &__name {
-        font-size: 24px;
-    }
-    &__status {
-        font-size: 18px;
-        color: $gray-dark;
     }
 }
