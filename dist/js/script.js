@@ -189,7 +189,8 @@ btnLibrary.addEventListener("click", () => {
 function showLibrary() {
     mainWrapper.innerHTML = "";
     for (let movie in movieLibrary.movies) {
-        addMainItem(movie, movieLibrary.movies[movie]);
+        // addMainItem(movie, movieLibrary.movies[movie]);
+        getMovieInfo(API_SEARCH + "&query=" + movie + API_LANG);
     }
 }
 
@@ -277,9 +278,55 @@ modalAddSubmit.addEventListener("click", () => {
         if (modalAddMovieName[i].value != "") {
             movieLibrary.movies[modalAddMovieName[i].value] =
                 modalAddMovieRate[i].value;
-            addMainItem(modalAddMovieName[i].value, modalAddMovieRate[i].value);
+            getMovieInfo(
+                API_SEARCH + "&query=" + modalAddMovieName[i].value + API_LANG
+            );
         }
     }
     closeModals();
     clearAddModal();
 });
+
+function getMovieInfo(url) {
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            renewLibrary(data.results);
+        });
+}
+
+function renewLibrary(data) {
+    data.length = 1;
+    data.forEach((movie) => {
+        const { title, poster_path, vote_average, id, genre_ids } = movie;
+        const movieEl = document.createElement("div");
+        let movieGenre = "";
+        for (let i = 0; i < GENRES.length; i++) {
+            if (genre_ids[0] == GENRES[i].id) {
+                movieGenre = GENRES[i].name;
+            }
+        }
+        movieEl.classList.add("main__item");
+        movieEl.dataset.movieId = id;
+        movieEl.innerHTML = `
+        <div class="main__item-header">${title}</div>
+        <div class="main__item-genres">
+            <a href="#" class="main__item-genre">${movieGenre}</a>
+        </div>
+        <div class="main__item-rate">&#9733; ${vote_average}</div>
+        <div class="main__item-image">
+            <img src="${IMG_URL + poster_path}" alt="poster" />
+        </div>`;
+        mainWrapper.appendChild(movieEl);
+    });
+    document.querySelectorAll(".main__item-genre").forEach((el) => {
+        if (el.innerHTML == "") {
+            el.remove();
+        }
+    });
+    document.querySelectorAll(".main__item-image img").forEach((el) => {
+        if (el.getAttribute("src") == "https://image.tmdb.org/t/p/w500null") {
+            el.setAttribute("src", "img/poster.png");
+        }
+    });
+}
