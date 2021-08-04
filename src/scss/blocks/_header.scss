@@ -33,6 +33,7 @@
         gap: 20px;
     }
     #searchForm {
+        position: relative;
         align-self: center;
         margin-top: 10px;
         input {
@@ -43,6 +44,17 @@
             padding: 0px 10px;
             color: $header-links;
             outline: none;
+            &::placeholder {
+                color: $header-links;
+            }
+        }
+        .search-icon {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
         }
     }
 }
