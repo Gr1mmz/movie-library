@@ -8,14 +8,17 @@
     &:hover {
         color: #fff;
         text-decoration: none;
-    }
-    &:active {
         background-color: $accent-color-hover;
     }
-    &_modal-submit {
-        display: inline-block;
-        margin: 0 auto;
-        margin-top: 10px;
+    &-red {
+        border-radius: 30px;
+        transition: transform 0.5s;
+        box-shadow: 0px 0px 0px 0px $accent-color;
+        &:hover {
+            background-color: $accent-color;
+            transform: translateY(-5px);
+            box-shadow: 0px 5px 0px 0px $accent-color-hover;
+        }
     }
     &-radius {
         border-radius: 30px;

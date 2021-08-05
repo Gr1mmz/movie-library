@@ -1,8 +1,23 @@
 .main {
+    min-height: calc(100vh - 125px);
     padding: 20px 0 50px 0;
+    background-color: $bg-dark;
+    position: relative;
+    &__bg {
+        position: absolute;
+        height: calc(100vh - 125px);
+        width: 100%;
+        left: 0;
+        top: 0px;
+        background: url("../img/bg-main.jpg") top center/cover repeat-y;
+        opacity: 0.2;
+    }
     &__header {
+        position: relative;
         font-size: 30px;
         font-weight: 500;
+        z-index: 10;
+        color: #fff;
     }
     &__wrapper {
         margin-top: 30px;
@@ -10,6 +25,32 @@
         grid-template-columns: repeat(auto-fit, 260px);
         gap: 22px;
         justify-content: center;
+    }
+    &__descr {
+        position: relative;
+        margin-top: 20px;
+        font-weight: 500;
+        width: 100%;
+        color: #fff;
+        font-size: 18px;
+        z-index: 10;
+        &-links {
+            margin-top: 10px;
+            display: flex;
+            gap: 15px;
+        }
+        &-link {
+            height: 40px;
+            width: 40px;
+            transition: all 0.5s;
+            img {
+                height: 100%;
+                width: 100%;
+            }
+            &:hover {
+                transform: translateY(-5px);
+            }
+        }
     }
     &__item {
         position: relative;
@@ -76,5 +117,13 @@
                 opacity: 0.5;
             }
         }
+    }
+    &__credits {
+        position: absolute;
+        z-index: 10;
+        right: 10px;
+        bottom: 10px;
+        color: #fff;
+        font-size: 9px;
     }
 }

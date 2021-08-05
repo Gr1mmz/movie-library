@@ -12,6 +12,7 @@
     opacity: 0;
     transition: opacity 0.8s;
     z-index: 11;
+    border-radius: 20px;
     &__wrapper {
         overflow-y: scroll;
         min-height: 60px;
@@ -41,7 +42,7 @@
     &__footer {
         position: fixed;
         width: 100%;
-        bottom: 20px;
+        bottom: 25px;
         left: 0;
         text-align: center;
         padding-top: 5px;
@@ -53,6 +54,7 @@
     &-add {
         &__table {
             margin-top: 15px;
+            padding-right: 10px;
         }
         &__item {
             display: grid;

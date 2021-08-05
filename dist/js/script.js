@@ -117,6 +117,7 @@ const movieLibrary = {
     modalAddSubmit = document.querySelector(".modal-add__submit"),
     mainWrapper = document.querySelector(".main__wrapper"),
     mainHeader = document.querySelector(".main__header"),
+    mainDescr = document.querySelector(".main__descr"),
     searchForm = document.getElementById("searchForm"),
     searchInput = document.getElementById("searchInput");
 
@@ -173,6 +174,7 @@ searchForm.addEventListener("submit", (e) => {
     if (searchInput.value) {
         getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
         mainHeader.innerHTML = "Результаты поиска:";
+        mainDescr.remove();
     }
 });
 
@@ -180,6 +182,7 @@ btnSearch.addEventListener("click", () => {
     if (searchInput.value) {
         getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
         mainHeader.innerHTML = "Результаты поиска:";
+        mainDescr.remove();
     }
 });
 
@@ -192,10 +195,12 @@ btnAdd.addEventListener("click", () => {
 btnPopular.addEventListener("click", () => {
     getMovies(REQUEST_POPULAR);
     mainHeader.innerHTML = "Популярные сейчас:";
+    mainDescr.remove();
 });
 btnLibrary.addEventListener("click", () => {
     showLibrary();
     mainHeader.innerHTML = "Моя библиотека:";
+    mainDescr.remove();
 });
 
 function showLibrary() {
