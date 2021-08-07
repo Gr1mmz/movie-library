@@ -1,77 +1,117 @@
 .modal {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 50px 35px 70px 35px;
+    padding: 50px 35px 50px 35px;
     min-height: 200px;
     width: 600px;
     font-size: 14px;
-    display: none;
     opacity: 0;
-    transition: opacity 0.8s;
-    z-index: 11;
+    transform-origin: center center;
     border-radius: 20px;
-    &__wrapper {
-        overflow-y: scroll;
-        min-height: 60px;
-        max-height: 60vh;
+    transition: all 0.5s;
+    z-index: -1;
+    &_active {
+        z-index: 101;
+        opacity: 1;
     }
-    &__header {
-        font-size: 16px;
-        font-weight: 700;
-        position: fixed;
-        top: 20px;
-        left: 35px;
-        width: 100%;
-        padding-bottom: 10px;
+    &__movie {
+        overflow-y: auto;
+        top: 10%;
+        left: 10%;
+        width: 80vw;
+        height: 80vh;
+        transform: scale(0);
+        &.modal_active {
+            transform: scale(1);
+        }
+        .wrapper {
+            display: flex;
+            gap: 40px;
+            height: 100%;
+            width: 100%;
+            .poster {
+                height: 400px;
+                min-width: 250px;
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+            .text {
+                .header {
+                    margin: 0;
+                    padding: 0;
+                    background: transparent;
+                    font-weight: 700;
+                    font-size: 40px;
+                    line-height: 45px;
+                }
+                .info {
+                    margin-top: 10px;
+                    .rate {
+                        font-weight: 700;
+                    }
+                    .genres {
+                        font-weight: 700;
+                        span {
+                            font-weight: 400;
+                        }
+                    }
+                }
+                .descr {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    &__login {
+        top: 50%;
+        left: 50%;
+        height: 320px;
+        width: 300px;
+        transform: translate(-50%, -50%) scale(0);
+        &.modal_active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .header {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-weight: 700;
+            font-size: 20px;
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+            input {
+                margin-bottom: 20px;
+                width: 100%;
+                height: 40px;
+                padding: 0px 15px;
+                border-radius: 20px;
+                border: 1px solid $bg-dark;
+                outline: none;
+            }
+            button {
+                display: block;
+                margin: 0 auto;
+                outline: none;
+            }
+        }
     }
     &__close {
         position: absolute;
-        top: -10px;
-        right: 55px;
-        font-size: 40px;
+        top: 10px;
+        right: 20px;
+        font-size: 60px;
         line-height: 40px;
         color: $accent-color;
         &:hover {
             color: $accent-color-hover;
             text-decoration: none;
-        }
-    }
-    &__footer {
-        position: fixed;
-        width: 100%;
-        bottom: 25px;
-        left: 0;
-        text-align: center;
-        padding-top: 5px;
-    }
-    &_active {
-        display: block;
-        opacity: 1;
-    }
-    &-add {
-        &__table {
-            margin-top: 15px;
-            padding-right: 10px;
-        }
-        &__item {
-            display: grid;
-            grid-template-columns: 10px 1fr 40px;
-            grid-template-rows: 30px;
-            gap: 10px;
-            align-items: stretch;
-            margin-bottom: 10px;
-            div {
-                align-self: center;
-            }
-            input {
-                padding: 0px 10px;
-            }
-        }
-        &__add-item {
-            display: inline-block;
         }
     }
 }

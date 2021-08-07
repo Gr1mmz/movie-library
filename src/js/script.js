@@ -2,12 +2,13 @@
 
 const API_KEY = "api_key=617bdf73d3624d01c9238fbe9d4643b0",
     BASE_URL = "https://api.themoviedb.org/3",
-    API_LANG = "&language=ru",
+    API_LANG = "&language=ru-RU",
     REQUEST_POPULAR =
         BASE_URL +
         "/discover/movie?sort_by=popularity.desc&" +
         API_KEY +
         API_LANG,
+    REQUEST_BY_ID = BASE_URL + "/movie/" + "451048" + "?" + API_KEY + API_LANG,
     GENRES = [
         {
             id: 28,
@@ -104,22 +105,23 @@ const movieLibrary = {
         genres: [],
         private: false,
     },
-    btnAdd = document.querySelector("#btnAdd"),
+    btnLogin = document.querySelector("#btnLogin"),
+    btnMainPage = document.querySelector("#mainPage"),
     btnPopular = document.querySelector("#btnPopular"),
     btnLibrary = document.querySelector("#btnLibrary"),
     btnSearch = document.querySelector(".search-icon"),
     overlay = document.querySelector(".overlay"),
     modalClose = document.querySelectorAll(".modal__close"),
     modals = document.querySelectorAll(".modal"),
-    modalAdd = document.querySelector(".modal-add"),
-    modalAddAddItem = document.querySelector(".modal-add__add-item"),
-    modalAddTable = document.querySelector(".modal-add__table-items"),
-    modalAddSubmit = document.querySelector(".modal-add__submit"),
+    modalMovie = document.querySelector(".modal__movie"),
+    modalMovieWrapper = document.querySelector(".modal__movie .wrapper"),
+    modalLogin = document.querySelector(".modal__login"),
     mainWrapper = document.querySelector(".main__wrapper"),
     mainHeader = document.querySelector(".main__header"),
     mainDescr = document.querySelector(".main__descr"),
     searchForm = document.getElementById("searchForm"),
     searchInput = document.getElementById("searchInput");
+let mainItems = document.querySelectorAll(".main__item");
 
 // API FUNCTIONS
 
@@ -165,6 +167,15 @@ function showMovies(data) {
             el.setAttribute("src", "img/poster.png");
         }
     });
+    getMainItems();
+}
+
+function getMovieInfo(url) {
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            showMovieInfo(data);
+        });
 }
 
 //Search
@@ -174,7 +185,7 @@ searchForm.addEventListener("submit", (e) => {
     if (searchInput.value) {
         getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
         mainHeader.innerHTML = "Результаты поиска:";
-        mainDescr.remove();
+        mainDescr.style.display = "none";
     }
 });
 
@@ -182,32 +193,41 @@ btnSearch.addEventListener("click", () => {
     if (searchInput.value) {
         getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
         mainHeader.innerHTML = "Результаты поиска:";
-        mainDescr.remove();
+        mainDescr.style.display = "none";
     }
 });
 
 // Buttons
 
-btnAdd.addEventListener("click", () => {
+btnLogin.addEventListener("click", () => {
     overlay.classList.add("overlay_active");
-    modalAdd.classList.add("modal_active");
+    modalLogin.classList.add("modal_active");
 });
+
+mainPage.addEventListener("click", () => {
+    mainHeader.innerHTML = "Всем привет!";
+    mainDescr.style.display = "block";
+    mainWrapper.innerHTML = "";
+});
+
 btnPopular.addEventListener("click", () => {
     getMovies(REQUEST_POPULAR);
     mainHeader.innerHTML = "Популярные сейчас:";
-    mainDescr.remove();
+    mainDescr.style.display = "none";
+    getMainItems();
 });
 btnLibrary.addEventListener("click", () => {
     showLibrary();
     mainHeader.innerHTML = "Моя библиотека:";
-    mainDescr.remove();
+    mainDescr.style.display = "none";
+    getMainItems();
 });
 
 function showLibrary() {
     mainWrapper.innerHTML = "";
-    for (let movie in movieLibrary.movies) {
-        getMovieInfo(API_SEARCH + "&query=" + movie + API_LANG);
-    }
+    // for (let movie in movieLibrary.movies) {
+    //     getMovieInfo(API_SEARCH + "&query=" + movie + API_LANG);
+    // }
 }
 
 // Modals
@@ -220,7 +240,8 @@ function closeModals() {
 }
 
 modalClose.forEach((item) => {
-    item.addEventListener("click", () => {
+    item.addEventListener("click", (e) => {
+        e.preventDefault();
         closeModals();
     });
 });
@@ -229,120 +250,74 @@ overlay.addEventListener("click", () => {
     closeModals();
 });
 
-// Modal Add
-
-function clearAddModal() {
-    modalAddTable.innerHTML = `<div class="modal-add__item">
-    <div class="item__number">
-        1.</div>
-    <input class="modal-add__movie-name" type="text" placeholder="Введите название фильма" required/>
-    <select name="rate" id="rate">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option selected value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-    </select>
-</div>`;
-}
-
-function addMainItem(name, rate) {
-    mainWrapper.innerHTML += `<div class="main__item">
-    <div class="main__item-header">${name}</div>
-    <div class="main__item-rate">&#9733; ${rate}</div>
-</div>`;
-}
-
-modalAddAddItem.addEventListener("click", () => {
-    let tableEl = document.createElement("div");
-    tableEl.classList.add("modal-add__item");
-    tableEl.innerHTML = `<div class="item__number">${
-        document.querySelectorAll(".modal-add__item").length + 1
-    }.</div>
-    <input class="modal-add__movie-name" type="text" placeholder="Введите название фильма" required/>
-    <select name="rate" id="rate">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option selected value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-    </select>`;
-    modalAddTable.appendChild(tableEl);
-    modalAddAddItem.scrollIntoView();
-});
-
-modalAddSubmit.addEventListener("click", () => {
-    for (
-        let i = 0;
-        i < document.querySelectorAll(".modal-add__item").length;
-        i++
-    ) {
-        let modalAddMovieName = document.querySelectorAll(
-                ".modal-add__movie-name"
-            ),
-            modalAddMovieRate = document.querySelectorAll("#rate");
-        if (modalAddMovieName[i].value != "") {
-            movieLibrary.movies[modalAddMovieName[i].value] =
-                modalAddMovieRate[i].value;
+function getMainItems() {
+    mainItems = document.querySelectorAll(".main__item");
+    mainItems.forEach((item) => {
+        let movieId = item.dataset.movieId;
+        item.addEventListener("click", () => {
+            overlay.classList.add("overlay_active");
+            modalMovie.classList.add("modal_active");
             getMovieInfo(
-                API_SEARCH + "&query=" + modalAddMovieName[i].value + API_LANG
+                BASE_URL + "/movie/" + movieId + "?" + API_KEY + API_LANG
             );
+        });
+    });
+}
+
+function showMovieInfo(data) {
+    // console.log(data);
+    const { title, poster_path, vote_average, overview, genres } = data;
+    if (poster_path != null) {
+        document.querySelector(".modal__movie .wrapper .poster img").src = `${
+            IMG_URL + poster_path
+        }`;
+    } else {
+        document.querySelector(".modal__movie .wrapper .poster img").src =
+            "img/poster.png";
+    }
+    document.querySelector(".modal__movie .wrapper .text .header").innerHTML =
+        title;
+    document.querySelector(
+        ".modal__movie .wrapper .text .info .rate span"
+    ).innerHTML = vote_average;
+    if (vote_average > 7) {
+        document.querySelector(
+            ".modal__movie .wrapper .text .info .rate span"
+        ).style.color = "gold";
+    } else if (vote_average <= 7 && vote_average > 5) {
+        document.querySelector(
+            ".modal__movie .wrapper .text .info .rate span"
+        ).style.color = "green";
+    } else {
+        document.querySelector(
+            ".modal__movie .wrapper .text .info .rate span"
+        ).style.color = "red";
+    }
+    document.querySelector(
+        ".modal__movie .wrapper .text .info .genres"
+    ).innerHTML = "Жанры: ";
+    for (let i = 0; i < genres.length; i++) {
+        if (i != genres.length - 1) {
+            genresEl = document.createElement("span");
+            genresEl.innerHTML = `${genres[i].name}, `;
+            document
+                .querySelector(".modal__movie .wrapper .text .info .genres")
+                .appendChild(genresEl);
+        } else {
+            genresEl = document.createElement("span");
+            genresEl.innerHTML = genres[i].name;
+            document
+                .querySelector(".modal__movie .wrapper .text .info .genres")
+                .appendChild(genresEl);
         }
     }
-    closeModals();
-    clearAddModal();
-});
-
-function getMovieInfo(url) {
-    fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-            renewLibrary(data.results);
-        });
-}
-
-function renewLibrary(data) {
-    data.length = 1;
-    data.forEach((movie) => {
-        const { title, poster_path, vote_average, id, genre_ids } = movie;
-        const movieEl = document.createElement("div");
-        let movieGenre = "";
-        for (let i = 0; i < GENRES.length; i++) {
-            if (genre_ids[0] == GENRES[i].id) {
-                movieGenre = GENRES[i].name;
-            }
-        }
-        movieEl.classList.add("main__item");
-        movieEl.dataset.movieId = id;
-        movieEl.innerHTML = `
-        <div class="main__item-header">${title}</div>
-        <div class="main__item-genres">
-            <a href="#" class="main__item-genre">${movieGenre}</a>
-        </div>
-        <div class="main__item-rate">&#9733; ${vote_average}</div>
-        <div class="main__item-image">
-            <img src="${IMG_URL + poster_path}" alt="poster" />
-        </div>`;
-        mainWrapper.appendChild(movieEl);
-    });
-    document.querySelectorAll(".main__item-genre").forEach((el) => {
-        if (el.innerHTML == "") {
-            el.remove();
-        }
-    });
-    document.querySelectorAll(".main__item-image img").forEach((el) => {
-        if (el.getAttribute("src") == "https://image.tmdb.org/t/p/w500null") {
-            el.setAttribute("src", "img/poster.png");
-        }
-    });
+    if (overview) {
+        document.querySelector(
+            ".modal__movie .wrapper .text .descr"
+        ).innerHTML = overview;
+    } else {
+        document.querySelector(
+            ".modal__movie .wrapper .text .descr"
+        ).innerHTML = "Описание отсутствует";
+    }
 }
