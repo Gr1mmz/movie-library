@@ -27,4 +27,12 @@
     &-radius {
         border-radius: 30px;
     }
+    &-add {
+        display: block;
+        text-align: center;
+        width: 212px;
+        white-space: nowrap;
+        margin-top: 10px;
+        transform: all 1s;
+    }
 }

@@ -100,7 +100,7 @@ const API_KEY = "api_key=617bdf73d3624d01c9238fbe9d4643b0",
 
 const movieLibrary = {
         count: 0,
-        movies: {},
+        movies: [],
         actors: {},
         genres: [],
         private: false,
@@ -110,6 +110,7 @@ const movieLibrary = {
     btnPopular = document.querySelector("#btnPopular"),
     btnLibrary = document.querySelector("#btnLibrary"),
     btnSearch = document.querySelector(".search-icon"),
+    btnAdd = document.querySelector(".btn-add"),
     overlay = document.querySelector(".overlay"),
     modalClose = document.querySelectorAll(".modal__close"),
     modals = document.querySelectorAll(".modal"),
@@ -266,7 +267,11 @@ function getMainItems() {
 
 function showMovieInfo(data) {
     // console.log(data);
-    const { title, poster_path, vote_average, overview, genres } = data;
+    const { title, poster_path, vote_average, overview, genres, id } = data;
+    let hasMovieInLib = false,
+        libraryEl = {};
+    btnAdd.style.backgroundColor = "#dd003f";
+    btnAdd.innerHTML = "Добавить в библиотеку";
     if (poster_path != null) {
         document.querySelector(".modal__movie .wrapper .poster img").src = `${
             IMG_URL + poster_path
@@ -277,6 +282,23 @@ function showMovieInfo(data) {
     }
     document.querySelector(".modal__movie .wrapper .text .header").innerHTML =
         title;
+    movieLibrary.movies.forEach((item) => {
+        if (item.name == title) {
+            btnAdd.style.backgroundColor = "green";
+            btnAdd.innerHTML = "В библиотеке";
+            hasMovieInLib = true;
+        }
+    });
+    if (hasMovieInLib == false) {
+        btnAdd.addEventListener("click", () => {
+            btnAdd.style.backgroundColor = "green";
+            btnAdd.innerHTML = "В библиотеке";
+            libraryEl.name = title;
+            libraryEl.id = id;
+            movieLibrary.movies.push(libraryEl);
+            console.log(libraryEl);
+        });
+    }
     document.querySelector(
         ".modal__movie .wrapper .text .info .rate span"
     ).innerHTML = vote_average;
@@ -321,3 +343,11 @@ function showMovieInfo(data) {
         ).innerHTML = "Описание отсутствует";
     }
 }
+
+// function clearObject(obj) {
+//     for (let key in obj) {
+//         if (obj.hasOwnProperty(key)) {
+//             delete obj[key];
+//         }
+//     }
+// }
