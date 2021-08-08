@@ -122,7 +122,9 @@ const movieLibrary = {
     mainDescr = document.querySelector(".main__descr"),
     searchForm = document.getElementById("searchForm"),
     searchInput = document.getElementById("searchInput");
-let mainItems = document.querySelectorAll(".main__item");
+let mainItems = document.querySelectorAll(".main__item"),
+    hasMovieInLib = false,
+    modalMovieId;
 
 // API FUNCTIONS
 
@@ -171,11 +173,11 @@ function showMovies(data) {
     getMainItems();
 }
 
-function getMovieInfo(url) {
+function getMovieInfo(url, movieId) {
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
-            showMovieInfo(data);
+            showMovieInfo(data, movieId);
         });
 }
 
@@ -231,6 +233,22 @@ function showLibrary() {
     // }
 }
 
+btnAdd.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (hasMovieInLib == false) {
+        let libraryEl = {};
+        btnAdd.style.backgroundColor = "green";
+        btnAdd.innerHTML = "В библиотеке";
+        libraryEl.name = document.querySelector(
+            ".modal__movie .wrapper .text .header"
+        ).innerHTML;
+        libraryEl.id = modalMovieId;
+        movieLibrary.movies[movieLibrary.movies.length] = libraryEl;
+        hasMovieInLib = true;
+        console.log(libraryEl);
+    }
+});
+
 // Modals
 
 function closeModals() {
@@ -259,17 +277,16 @@ function getMainItems() {
             overlay.classList.add("overlay_active");
             modalMovie.classList.add("modal_active");
             getMovieInfo(
-                BASE_URL + "/movie/" + movieId + "?" + API_KEY + API_LANG
+                BASE_URL + "/movie/" + movieId + "?" + API_KEY + API_LANG,
+                movieId
             );
         });
     });
 }
 
-function showMovieInfo(data) {
-    // console.log(data);
+function showMovieInfo(data, movieId) {
     const { title, poster_path, vote_average, overview, genres, id } = data;
-    let hasMovieInLib = false,
-        libraryEl = {};
+    modalMovieId = movieId;
     btnAdd.style.backgroundColor = "#dd003f";
     btnAdd.innerHTML = "Добавить в библиотеку";
     if (poster_path != null) {
@@ -283,22 +300,14 @@ function showMovieInfo(data) {
     document.querySelector(".modal__movie .wrapper .text .header").innerHTML =
         title;
     movieLibrary.movies.forEach((item) => {
-        if (item.name == title) {
+        if (item.id == id) {
             btnAdd.style.backgroundColor = "green";
             btnAdd.innerHTML = "В библиотеке";
             hasMovieInLib = true;
+        } else {
+            hasMovieInLib = false;
         }
     });
-    if (hasMovieInLib == false) {
-        btnAdd.addEventListener("click", () => {
-            btnAdd.style.backgroundColor = "green";
-            btnAdd.innerHTML = "В библиотеке";
-            libraryEl.name = title;
-            libraryEl.id = id;
-            movieLibrary.movies.push(libraryEl);
-            console.log(libraryEl);
-        });
-    }
     document.querySelector(
         ".modal__movie .wrapper .text .info .rate span"
     ).innerHTML = vote_average;
@@ -343,11 +352,3 @@ function showMovieInfo(data) {
         ).innerHTML = "Описание отсутствует";
     }
 }
-
-// function clearObject(obj) {
-//     for (let key in obj) {
-//         if (obj.hasOwnProperty(key)) {
-//             delete obj[key];
-//         }
-//     }
-// }
