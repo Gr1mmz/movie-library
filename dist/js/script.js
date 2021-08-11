@@ -107,6 +107,7 @@ const movieLibrary = {
     },
     btnLogin = document.querySelector("#btnLogin"),
     btnMainPage = document.querySelector("#mainPage"),
+    btnGenres = document.querySelector("#btnGenres"),
     btnPopular = document.querySelector("#btnPopular"),
     btnLibrary = document.querySelector("#btnLibrary"),
     btnSearch = document.querySelector(".search-icon"),
@@ -117,7 +118,9 @@ const movieLibrary = {
     modalMovie = document.querySelector(".modal__movie"),
     modalMovieWrapper = document.querySelector(".modal__movie .wrapper"),
     modalLogin = document.querySelector(".modal__login"),
-    mainWrapper = document.querySelector(".main__wrapper"),
+    mainMovies = document.querySelector(".main__movies"),
+    mainGenres = document.querySelector(".main__genres"),
+    mainGenresLinks = document.querySelectorAll(".main__genres-item"),
     mainHeader = document.querySelector(".main__header"),
     mainDescr = document.querySelector(".main__descr"),
     searchForm = document.getElementById("searchForm"),
@@ -132,12 +135,13 @@ function getMovies(url) {
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
+            console.log(data);
             showMovies(data.results);
         });
 }
 
 function showMovies(data) {
-    mainWrapper.innerHTML = "";
+    mainMovies.innerHTML = "";
     data.forEach((movie) => {
         const { title, poster_path, vote_average, id, genre_ids } = movie;
         const movieEl = document.createElement("div");
@@ -158,7 +162,7 @@ function showMovies(data) {
         <div class="main__item-image">
             <img src="${IMG_URL + poster_path}" alt="poster" />
         </div>`;
-        mainWrapper.appendChild(movieEl);
+        mainMovies.appendChild(movieEl);
     });
     document.querySelectorAll(".main__item-genre").forEach((el) => {
         if (el.innerHTML == "") {
@@ -179,109 +183,6 @@ function getMovieInfo(url, movieId) {
         .then((data) => {
             showMovieInfo(data, movieId);
         });
-}
-
-//Search
-
-searchForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (searchInput.value) {
-        getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
-        mainHeader.innerHTML = "Результаты поиска:";
-        mainDescr.style.display = "none";
-    }
-});
-
-btnSearch.addEventListener("click", () => {
-    if (searchInput.value) {
-        getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
-        mainHeader.innerHTML = "Результаты поиска:";
-        mainDescr.style.display = "none";
-    }
-});
-
-// Buttons
-
-btnLogin.addEventListener("click", () => {
-    overlay.classList.add("overlay_active");
-    modalLogin.classList.add("modal_active");
-});
-
-mainPage.addEventListener("click", () => {
-    mainHeader.innerHTML = "Всем привет!";
-    mainDescr.style.display = "block";
-    mainWrapper.innerHTML = "";
-});
-
-btnPopular.addEventListener("click", () => {
-    getMovies(REQUEST_POPULAR);
-    mainHeader.innerHTML = "Популярные сейчас:";
-    mainDescr.style.display = "none";
-    getMainItems();
-});
-btnLibrary.addEventListener("click", () => {
-    showLibrary();
-    mainHeader.innerHTML = "Моя библиотека:";
-    mainDescr.style.display = "none";
-    getMainItems();
-});
-
-function showLibrary() {
-    mainWrapper.innerHTML = "";
-    // for (let movie in movieLibrary.movies) {
-    //     getMovieInfo(API_SEARCH + "&query=" + movie + API_LANG);
-    // }
-}
-
-btnAdd.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (hasMovieInLib == false) {
-        let libraryEl = {};
-        btnAdd.style.backgroundColor = "green";
-        btnAdd.innerHTML = "В библиотеке";
-        libraryEl.name = document.querySelector(
-            ".modal__movie .wrapper .text .header"
-        ).innerHTML;
-        libraryEl.id = modalMovieId;
-        movieLibrary.movies[movieLibrary.movies.length] = libraryEl;
-        hasMovieInLib = true;
-        console.log(libraryEl);
-    }
-});
-
-// Modals
-
-function closeModals() {
-    overlay.classList.remove("overlay_active");
-    modals.forEach((item) => {
-        item.classList.remove("modal_active");
-    });
-}
-
-modalClose.forEach((item) => {
-    item.addEventListener("click", (e) => {
-        e.preventDefault();
-        closeModals();
-    });
-});
-
-overlay.addEventListener("click", () => {
-    closeModals();
-});
-
-function getMainItems() {
-    mainItems = document.querySelectorAll(".main__item");
-    mainItems.forEach((item) => {
-        let movieId = item.dataset.movieId;
-        item.addEventListener("click", () => {
-            overlay.classList.add("overlay_active");
-            modalMovie.classList.add("modal_active");
-            getMovieInfo(
-                BASE_URL + "/movie/" + movieId + "?" + API_KEY + API_LANG,
-                movieId
-            );
-        });
-    });
 }
 
 function showMovieInfo(data, movieId) {
@@ -351,4 +252,183 @@ function showMovieInfo(data, movieId) {
             ".modal__movie .wrapper .text .descr"
         ).innerHTML = "Описание отсутствует";
     }
+}
+
+function getMovieForLib(url) {
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            // console.log(data);
+            showMovieForLib(data);
+        });
+}
+
+function showMovieForLib(data) {
+    const { title, poster_path, vote_average, id, genres } = data;
+    const movieEl = document.createElement("div");
+    let movieGenre = genres[0].name;
+    movieEl.classList.add("main__item");
+    movieEl.dataset.movieId = id;
+    movieEl.innerHTML = `
+        <div class="main__item-header">${title}</div>
+        <div class="main__item-genres">
+            <a href="#" class="main__item-genre">${movieGenre}</a>
+        </div>
+        <div class="main__item-rate">&#9733; ${vote_average}</div>
+        <div class="main__item-image">
+            <img src="${IMG_URL + poster_path}" alt="poster" />
+        </div>`;
+    mainMovies.appendChild(movieEl);
+    document.querySelectorAll(".main__item-genre").forEach((el) => {
+        if (el.innerHTML == "") {
+            el.remove();
+        }
+    });
+    document.querySelectorAll(".main__item-image img").forEach((el) => {
+        if (el.getAttribute("src") == "https://image.tmdb.org/t/p/w500null") {
+            el.setAttribute("src", "img/poster.png");
+        }
+    });
+    getMainItems();
+}
+
+function showLibrary() {
+    mainMovies.innerHTML = "";
+    mainDescr.style.display = "none";
+    for (let i = 0; i < movieLibrary.movies.length; i++) {
+        console.log(movieLibrary.movies[i]);
+        // console.log(movieLibrary.movies[i].id);
+        getMovieForLib(
+            BASE_URL +
+                "/movie/" +
+                movieLibrary.movies[i].id +
+                "?" +
+                API_KEY +
+                API_LANG
+        );
+    }
+}
+
+//Search
+
+searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (searchInput.value) {
+        getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
+        mainHeader.innerHTML = "Результаты поиска:";
+        mainDescr.style.display = "none";
+    }
+});
+
+btnSearch.addEventListener("click", () => {
+    if (searchInput.value) {
+        getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
+        mainHeader.innerHTML = "Результаты поиска:";
+        mainDescr.style.display = "none";
+    }
+});
+
+// Buttons
+
+btnLogin.addEventListener("click", () => {
+    overlay.classList.add("overlay_active");
+    modalLogin.classList.add("modal_active");
+});
+
+mainPage.addEventListener("click", () => {
+    mainHeader.innerHTML = "Всем привет!";
+    mainDescr.style.display = "block";
+    mainMovies.innerHTML = "";
+    mainGenres.style.display = "none";
+});
+
+btnGenres.addEventListener("click", () => {
+    mainHeader.innerHTML = "Жанры";
+    mainMovies.innerHTML = "";
+    mainDescr.style.display = "none";
+    mainGenres.style.display = "block";
+});
+
+mainGenresLinks.forEach((item) => {
+    item.addEventListener("click", (e) => {
+        e.preventDefault();
+        // console.log(item.dataset.genreId);
+        getMovies(
+            BASE_URL +
+                "/discover/movie?" +
+                API_KEY +
+                API_LANG +
+                "&sort_by=popularity.desc&with_genres=" +
+                item.dataset.genreId
+        );
+    });
+    getMainItems();
+});
+
+// https://api.themoviedb.org/3/discover/movie?api_key=617bdf73d3624d01c9238fbe9d4643b0&language=ru-RU&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=28
+
+btnPopular.addEventListener("click", () => {
+    getMovies(REQUEST_POPULAR);
+    mainHeader.innerHTML = "Популярные сейчас:";
+    mainDescr.style.display = "none";
+    mainGenres.style.display = "none";
+    getMainItems();
+});
+btnLibrary.addEventListener("click", () => {
+    showLibrary();
+    mainHeader.innerHTML = "Моя библиотека:";
+    mainDescr.style.display = "none";
+    mainGenres.style.display = "none";
+    getMainItems();
+});
+
+btnAdd.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (hasMovieInLib == false) {
+        let libraryEl = {};
+        btnAdd.style.backgroundColor = "green";
+        btnAdd.innerHTML = "В библиотеке";
+        libraryEl.name = document.querySelector(
+            ".modal__movie .wrapper .text .header"
+        ).innerHTML;
+        libraryEl.id = modalMovieId;
+        movieLibrary.movies[movieLibrary.movies.length] = libraryEl;
+        hasMovieInLib = true;
+        // console.log(libraryEl);
+    }
+});
+
+// Modals
+
+function closeModals() {
+    overlay.classList.remove("overlay_active");
+    modals.forEach((item) => {
+        item.classList.remove("modal_active");
+    });
+}
+
+modalClose.forEach((item) => {
+    item.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeModals();
+    });
+});
+
+overlay.addEventListener("click", () => {
+    closeModals();
+});
+
+function getMainItems() {
+    mainItems = document.querySelectorAll(".main__item");
+    mainItems.forEach((item) => {
+        let movieId = item.dataset.movieId;
+        item.addEventListener("click", () => {
+            overlay.classList.add("overlay_active");
+            modalMovie.classList.add("modal_active");
+            getMovieInfo(
+                BASE_URL + "/movie/" + movieId + "?" + API_KEY + API_LANG,
+                movieId
+            );
+        });
+    });
 }

@@ -16,6 +16,7 @@
             align-items: center;
         }
         &-item {
+            padding: 5px;
             color: $header-links;
             transition: all 0.3s;
             &:hover {

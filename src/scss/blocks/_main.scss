@@ -11,6 +11,7 @@
         top: 0px;
         background: url("../img/bg-main.jpg") top center/cover repeat-y;
         opacity: 0.2;
+        z-index: 0;
     }
     &__header {
         position: relative;
@@ -18,13 +19,6 @@
         font-weight: 500;
         z-index: 10;
         color: #fff;
-    }
-    &__wrapper {
-        margin-top: 30px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 260px);
-        gap: 22px;
-        justify-content: center;
     }
     &__descr {
         position: relative;
@@ -52,10 +46,49 @@
             }
         }
     }
+    &__wrapper {
+        margin-top: 30px;
+        display: flex;
+        gap: 20px;
+    }
+    &__genres {
+        position: relative;
+        align-self: flex-start;
+        z-index: 10;
+        display: none;
+        background-color: $bg-light;
+        min-width: 260px;
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            li {
+                a {
+                    padding: 5px 0px;
+                    color: $header-links;
+                    transition: all 0.3s;
+                    &:hover {
+                        color: $header-links-hover;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+    &__movies {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 260px);
+        gap: 22px;
+        justify-content: center;
+    }
     &__item {
         position: relative;
         height: 380px;
-        width: 260px;
+        min-width: 260px;
         background-color: #000;
         border: 1px solid $gray-dark;
         font-weight: 700;
@@ -90,6 +123,10 @@
             padding: 4px 10px;
             background-color: $gray-dark;
             border-radius: 5px;
+            &:hover {
+                color: $header-links-hover;
+                text-decoration: none;
+            }
         }
         &-rate {
             font-size: 16px;
