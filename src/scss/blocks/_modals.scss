@@ -34,7 +34,7 @@
             .poster {
                 height: auto;
                 min-width: 30%;
-                max-width: 30%;
+                // max-width: 30%;
                 img {
                     height: 100%;
                     width: 100%;
@@ -65,6 +65,7 @@
                 }
                 .descr {
                     margin-top: 10px;
+                    margin-bottom: 35px;
                 }
             }
         }
@@ -105,7 +106,7 @@
         }
     }
     &__close {
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 20px;
         font-size: 60px;

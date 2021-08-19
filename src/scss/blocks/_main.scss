@@ -94,6 +94,7 @@
         font-weight: 700;
         color: #fff;
         transition: all 0.5s;
+        overflow: hidden;
         cursor: pointer;
         &-header,
         &-genres,
@@ -112,6 +113,10 @@
         }
         &-genres {
             position: absolute;
+            width: 90%;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
             bottom: 35px;
             left: 10px;
             font-weight: 400;
@@ -119,6 +124,7 @@
             line-height: 13px;
         }
         &-genre {
+            position: relative;
             color: #fff;
             padding: 4px 10px;
             background-color: $gray-dark;

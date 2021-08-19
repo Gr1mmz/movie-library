@@ -124,7 +124,8 @@ const movieLibrary = {
     mainHeader = document.querySelector(".main__header"),
     mainDescr = document.querySelector(".main__descr"),
     searchForm = document.getElementById("searchForm"),
-    searchInput = document.getElementById("searchInput");
+    searchInput = document.getElementById("searchInput"),
+    hamburger = document.querySelector(".hamburger");
 let mainItems = document.querySelectorAll(".main__item"),
     hasMovieInLib = false,
     modalMovieId;
@@ -135,7 +136,7 @@ function getMovies(url) {
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
             showMovies(data.results);
         });
 }
@@ -145,24 +146,31 @@ function showMovies(data) {
     data.forEach((movie) => {
         const { title, poster_path, vote_average, id, genre_ids } = movie;
         const movieEl = document.createElement("div");
-        let movieGenre = "";
-        for (let i = 0; i < GENRES.length; i++) {
-            if (genre_ids[0] == GENRES[i].id) {
-                movieGenre = GENRES[i].name;
-            }
-        }
         movieEl.classList.add("main__item");
         movieEl.dataset.movieId = id;
+        let movieGenres = document.createElement("div");
+        movieGenres.classList.add("main__item-genres");
+        for (let i = 0; i < GENRES.length; i++) {
+            for (let j = 0; j < genre_ids.length; j++) {
+                if (genre_ids[j] == GENRES[i].id) {
+                    let genreEl = document.createElement("a");
+                    genreEl.classList.add("main__item-genre");
+                    genreEl.setAttribute("href", "#");
+                    genreEl.dataset.genreId = genre_ids[j];
+                    genreEl.innerHTML = GENRES[i].name;
+                    movieGenres.appendChild(genreEl);
+                }
+            }
+        }
+        // console.log(movieGenres);
         movieEl.innerHTML = `
         <div class="main__item-header">${title}</div>
-        <div class="main__item-genres">
-            <a href="#" class="main__item-genre">${movieGenre}</a>
-        </div>
         <div class="main__item-rate">&#9733; ${vote_average}</div>
         <div class="main__item-image">
             <img src="${IMG_URL + poster_path}" alt="poster" />
         </div>`;
         mainMovies.appendChild(movieEl);
+        movieEl.appendChild(movieGenres);
     });
     document.querySelectorAll(".main__item-genre").forEach((el) => {
         if (el.innerHTML == "") {
@@ -266,19 +274,27 @@ function getMovieForLib(url) {
 function showMovieForLib(data) {
     const { title, poster_path, vote_average, id, genres } = data;
     const movieEl = document.createElement("div");
-    let movieGenre = genres[0].name;
+    // let movieGenre = genres[0].name;
     movieEl.classList.add("main__item");
     movieEl.dataset.movieId = id;
+    let movieGenres = document.createElement("div");
+    movieGenres.classList.add("main__item-genres");
+    for (let i = 0; i < genres.length; i++) {
+        let genreEl = document.createElement("a");
+        genreEl.classList.add("main__item-genre");
+        genreEl.setAttribute("href", "#");
+        genreEl.dataset.genreId = genres[i].id;
+        genreEl.innerHTML = genres[i].name;
+        movieGenres.appendChild(genreEl);
+    }
     movieEl.innerHTML = `
         <div class="main__item-header">${title}</div>
-        <div class="main__item-genres">
-            <a href="#" class="main__item-genre">${movieGenre}</a>
-        </div>
         <div class="main__item-rate">&#9733; ${vote_average}</div>
         <div class="main__item-image">
             <img src="${IMG_URL + poster_path}" alt="poster" />
         </div>`;
     mainMovies.appendChild(movieEl);
+    movieEl.appendChild(movieGenres);
     document.querySelectorAll(".main__item-genre").forEach((el) => {
         if (el.innerHTML == "") {
             el.remove();
@@ -296,7 +312,7 @@ function showLibrary() {
     mainMovies.innerHTML = "";
     mainDescr.style.display = "none";
     for (let i = 0; i < movieLibrary.movies.length; i++) {
-        console.log(movieLibrary.movies[i]);
+        // console.log(movieLibrary.movies[i]);
         // console.log(movieLibrary.movies[i].id);
         getMovieForLib(
             BASE_URL +
@@ -329,6 +345,24 @@ btnSearch.addEventListener("click", () => {
 });
 
 // Buttons
+
+hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("hamburger_active");
+    overlay.classList.toggle("overlay_active");
+    document
+        .querySelector(".header__menu-wrapper")
+        .classList.toggle("header__menu-wrapper_active");
+});
+
+document.querySelectorAll(".header__menu-item").forEach((item) => {
+    item.addEventListener("click", () => {
+        document
+            .querySelector(".header__menu-wrapper")
+            .classList.toggle("header__menu-wrapper_active");
+        hamburger.classList.toggle("hamburger_active");
+        overlay.classList.toggle("overlay_active");
+    });
+});
 
 btnLogin.addEventListener("click", () => {
     overlay.classList.add("overlay_active");
@@ -416,6 +450,10 @@ modalClose.forEach((item) => {
 
 overlay.addEventListener("click", () => {
     closeModals();
+    document
+        .querySelector(".header__menu-wrapper")
+        .classList.remove("header__menu-wrapper_active");
+    hamburger.classList.remove("hamburger_active");
 });
 
 function getMainItems() {
