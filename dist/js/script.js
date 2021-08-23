@@ -358,9 +358,9 @@ document.querySelectorAll(".header__menu-item").forEach((item) => {
     item.addEventListener("click", () => {
         document
             .querySelector(".header__menu-wrapper")
-            .classList.toggle("header__menu-wrapper_active");
-        hamburger.classList.toggle("hamburger_active");
-        overlay.classList.toggle("overlay_active");
+            .classList.remove("header__menu-wrapper_active");
+        hamburger.classList.remove("hamburger_active");
+        overlay.classList.remove("overlay_active");
     });
 });
 
