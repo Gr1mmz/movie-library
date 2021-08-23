@@ -439,6 +439,7 @@ function closeModals() {
     modals.forEach((item) => {
         item.classList.remove("modal_active");
     });
+    document.body.classList.remove("noscroll");
 }
 
 modalClose.forEach((item) => {
@@ -453,6 +454,7 @@ overlay.addEventListener("click", () => {
     document
         .querySelector(".header__menu-wrapper")
         .classList.remove("header__menu-wrapper_active");
+    document.body.classList.remove("noscroll");
     hamburger.classList.remove("hamburger_active");
 });
 
@@ -463,6 +465,7 @@ function getMainItems() {
         item.addEventListener("click", () => {
             overlay.classList.add("overlay_active");
             modalMovie.classList.add("modal_active");
+            document.body.classList.add("noscroll");
             getMovieInfo(
                 BASE_URL + "/movie/" + movieId + "?" + API_KEY + API_LANG,
                 movieId

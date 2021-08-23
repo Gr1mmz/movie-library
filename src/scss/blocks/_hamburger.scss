@@ -1,7 +1,9 @@
 .hamburger {
     position: relative;
-    height: 9px;
+    padding: 8px 2px;
+    height: 100%;
     display: none;
+    gap: 4px;
     flex-direction: column;
     justify-content: space-between;
     align-self: center;
@@ -9,21 +11,21 @@
     &__line {
         display: block;
         width: 20px;
-        height: 1px;
+        height: 2px;
         background: $header-links;
-        transition: all 0.3s;
+        transition: all 0.5s;
     }
     &_active {
         .hamburger__line:nth-child(1) {
             width: 22px;
-            transform: rotate(45deg) translateY(6px);
+            transform: rotate(45deg) translateY(4px);
         }
         .hamburger__line:nth-child(2) {
             display: none;
         }
         .hamburger__line:nth-child(3) {
             width: 22px;
-            transform: rotate(-45deg) translateY(-6px);
+            transform: rotate(-45deg) translateY(-4px);
         }
     }
 }

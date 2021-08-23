@@ -17,6 +17,7 @@
         opacity: 1;
     }
     &__movie {
+        position: fixed;
         overflow-y: auto;
         top: 10%;
         left: 10%;

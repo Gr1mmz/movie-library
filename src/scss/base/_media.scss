@@ -171,7 +171,6 @@
                 flex-direction: column;
                 gap: 20px;
                 .poster {
-                    // display: none;
                     align-self: center;
                 }
                 .text {
@@ -191,20 +190,27 @@
         &__menu {
             flex-direction: column;
             align-items: flex-start;
-            padding: 60px 10px 0px 8px;
+            padding: 60px 30px 0px 10px;
             &-wrapper {
                 position: absolute;
                 top: 0;
                 left: -100%;
                 z-index: 101;
                 height: 100%;
-                width: 50%;
                 align-items: flex-start;
                 background-color: $bg-dark;
                 transition: all 0.5s;
                 &_active {
                     left: 0;
                 }
+            }
+            &-item {
+                font-size: 14px;
+            }
+        }
+        &__account {
+            &-icon {
+                font-size: 14px;
             }
         }
         &__wrapper {
@@ -220,11 +226,32 @@
                 padding: 10px;
             }
         }
+        &__movies {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        &__item {
+            height: auto;
+            min-width: auto;
+            &-header {
+                font-size: 16px;
+            }
+        }
     }
     .modal {
         &__movie {
             width: 100%;
             left: 0;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .main {
+        &__item {
+            &-header {
+                font-size: 12px;
+            }
         }
     }
 }
