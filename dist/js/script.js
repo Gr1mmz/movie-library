@@ -125,10 +125,22 @@ const movieLibrary = {
     mainDescr = document.querySelector(".main__descr"),
     searchForm = document.getElementById("searchForm"),
     searchInput = document.getElementById("searchInput"),
-    hamburger = document.querySelector(".hamburger");
+    hamburger = document.querySelector(".hamburger"),
+    popularMoviesListener = throttle(checkPositionPopular, 200),
+    genreMoviesListener = throttle(checkPositionGenre, 200);
 let mainItems = document.querySelectorAll(".main__item"),
     hasMovieInLib = false,
-    modalMovieId;
+    modalMovieId,
+    genre,
+    pageNumber = 1;
+
+window.onload = function () {
+    document.body.classList.add("loaded_hiding");
+    if (fetch(REQUEST_POPULAR)) {
+        document.body.classList.add("loaded");
+        document.body.classList.remove("loaded_hiding");
+    }
+};
 
 // API FUNCTIONS
 
@@ -142,7 +154,7 @@ function getMovies(url) {
 }
 
 function showMovies(data) {
-    mainMovies.innerHTML = "";
+    // mainMovies.innerHTML = "";
     data.forEach((movie) => {
         const { title, poster_path, vote_average, id, genre_ids } = movie;
         const movieEl = document.createElement("div");
@@ -260,6 +272,7 @@ function showMovieInfo(data, movieId) {
             ".modal__movie .wrapper .text .descr"
         ).innerHTML = "Описание отсутствует";
     }
+    modalMovie.classList.add("movie-loaded");
 }
 
 function getMovieForLib(url) {
@@ -333,6 +346,7 @@ searchForm.addEventListener("submit", (e) => {
         getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
         mainHeader.innerHTML = "Результаты поиска:";
         mainDescr.style.display = "none";
+        mainGenres.style.display = "none";
     }
 });
 
@@ -341,6 +355,7 @@ btnSearch.addEventListener("click", () => {
         getMovies(API_SEARCH + "&query=" + searchInput.value + API_LANG);
         mainHeader.innerHTML = "Результаты поиска:";
         mainDescr.style.display = "none";
+        mainGenres.style.display = "none";
     }
 });
 
@@ -356,6 +371,10 @@ hamburger.addEventListener("click", () => {
 
 document.querySelectorAll(".header__menu-item").forEach((item) => {
     item.addEventListener("click", () => {
+        document.querySelectorAll(".header__menu-item").forEach((el) => {
+            el.classList.remove("active");
+        });
+        item.classList.add("active");
         document
             .querySelector(".header__menu-wrapper")
             .classList.remove("header__menu-wrapper_active");
@@ -369,46 +388,57 @@ btnLogin.addEventListener("click", () => {
     modalLogin.classList.add("modal_active");
 });
 
-mainPage.addEventListener("click", () => {
+mainPage.addEventListener("click", (e) => {
+    clearFetchMovies(popularMoviesListener);
+    clearFetchMovies(genreMoviesListener);
+    mainMovies.innerHTML = "";
     mainHeader.innerHTML = "Всем привет!";
     mainDescr.style.display = "block";
-    mainMovies.innerHTML = "";
     mainGenres.style.display = "none";
 });
 
 btnGenres.addEventListener("click", () => {
+    clearFetchMovies(popularMoviesListener);
+    clearFetchMovies(genreMoviesListener);
     mainHeader.innerHTML = "Жанры";
-    mainMovies.innerHTML = "";
     mainDescr.style.display = "none";
     mainGenres.style.display = "block";
+    mainMovies.innerHTML = "";
+    window.addEventListener("scroll", genreMoviesListener, true);
 });
 
 mainGenresLinks.forEach((item) => {
     item.addEventListener("click", (e) => {
         e.preventDefault();
-        // console.log(item.dataset.genreId);
+        mainMovies.innerHTML = "";
+        pageNumber = 1;
+        genre = item.dataset.genreId;
         getMovies(
             BASE_URL +
                 "/discover/movie?" +
                 API_KEY +
                 API_LANG +
                 "&sort_by=popularity.desc&with_genres=" +
-                item.dataset.genreId
+                genre
         );
     });
-    getMainItems();
 });
 
-// https://api.themoviedb.org/3/discover/movie?api_key=617bdf73d3624d01c9238fbe9d4643b0&language=ru-RU&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=28
-
 btnPopular.addEventListener("click", () => {
-    getMovies(REQUEST_POPULAR);
+    clearFetchMovies(popularMoviesListener);
+    clearFetchMovies(genreMoviesListener);
+    pageNumber = 1;
+    mainMovies.innerHTML = "";
+    getMovies(REQUEST_POPULAR + "&page=1");
+    getMainItems();
     mainHeader.innerHTML = "Популярные сейчас:";
     mainDescr.style.display = "none";
     mainGenres.style.display = "none";
-    getMainItems();
+    window.addEventListener("scroll", popularMoviesListener, true);
 });
 btnLibrary.addEventListener("click", () => {
+    clearFetchMovies(popularMoviesListener);
+    clearFetchMovies(genreMoviesListener);
     showLibrary();
     mainHeader.innerHTML = "Моя библиотека:";
     mainDescr.style.display = "none";
@@ -439,7 +469,11 @@ function closeModals() {
     modals.forEach((item) => {
         item.classList.remove("modal_active");
     });
+    document.querySelector(".modal__movie .wrapper").scrollTop = 0;
     document.body.classList.remove("noscroll");
+    setTimeout(() => {
+        modalMovie.classList.remove("movie-loaded");
+    }, 500);
 }
 
 modalClose.forEach((item) => {
@@ -458,11 +492,14 @@ overlay.addEventListener("click", () => {
     hamburger.classList.remove("hamburger_active");
 });
 
+// APP functions
+
 function getMainItems() {
     mainItems = document.querySelectorAll(".main__item");
     mainItems.forEach((item) => {
         let movieId = item.dataset.movieId;
         item.addEventListener("click", () => {
+            // console.log("click");
             overlay.classList.add("overlay_active");
             modalMovie.classList.add("modal_active");
             document.body.classList.add("noscroll");
@@ -472,4 +509,79 @@ function getMainItems() {
             );
         });
     });
+}
+
+function checkPositionPopular() {
+    const height = document.body.offsetHeight;
+    const screenHeight = window.innerHeight;
+    const scrolled = window.scrollY;
+    const threshold = height - screenHeight / 4;
+    const position = scrolled + screenHeight;
+    if (position >= threshold) {
+        // console.log("load");
+        fetchPopularMovies();
+        getMainItems();
+    }
+}
+
+function checkPositionGenre() {
+    const height = document.body.offsetHeight;
+    const screenHeight = window.innerHeight;
+    const scrolled = window.scrollY;
+    const threshold = height - screenHeight / 4;
+    const position = scrolled + screenHeight;
+    if (position >= threshold) {
+        // console.log("load");
+        fetchGenreMovies();
+        getMainItems();
+    }
+}
+
+function throttle(callee, timeout) {
+    let timer = null;
+
+    return function perform(...args) {
+        if (timer) return;
+
+        timer = setTimeout(() => {
+            callee(...args);
+
+            clearTimeout(timer);
+            timer = null;
+        }, timeout);
+    };
+}
+
+function fetchPopularMovies() {
+    pageNumber += 1;
+    let isLoading = false;
+    let shouldLoad = true;
+    if (isLoading || !shouldLoad) return;
+    isLoading = true;
+    getMovies(REQUEST_POPULAR + `&page=${pageNumber}`);
+    if (pageNumber > 5000) shouldLoad = false;
+    isLoading = false;
+}
+
+function fetchGenreMovies() {
+    pageNumber += 1;
+    let isLoading = false;
+    let shouldLoad = true;
+    if (isLoading || !shouldLoad) return;
+    isLoading = true;
+    getMovies(
+        BASE_URL +
+            "/discover/movie?" +
+            API_KEY +
+            API_LANG +
+            "&sort_by=popularity.desc&with_genres=" +
+            genre +
+            `&page=${pageNumber}`
+    );
+    if (pageNumber > 5000) shouldLoad = false;
+    isLoading = false;
+}
+
+function clearFetchMovies(listener) {
+    window.removeEventListener("scroll", listener, true);
 }

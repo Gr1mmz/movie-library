@@ -7,13 +7,13 @@
     flex-direction: column;
     justify-content: space-between;
     align-self: center;
-    z-index: 102;
+    z-index: 250;
     &__line {
         display: block;
         width: 20px;
         height: 2px;
         background: $header-links;
-        transition: all 0.5s;
+        transition: all 0.3s;
     }
     &_active {
         .hamburger__line:nth-child(1) {

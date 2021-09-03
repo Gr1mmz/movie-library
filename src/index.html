@@ -14,6 +14,9 @@
         <link rel="stylesheet" href="css/style.min.css" />
     </head>
     <body>
+        <div class="preloader">
+            <img src="icons/preloader.svg" alt="" class="preloader__image" />
+        </div>
         <div class="overlay"></div>
         <div class="modal modal__login">
             <a href="#" class="modal__close">&times;</a>
@@ -35,6 +38,13 @@
             </form>
         </div>
         <div class="modal modal__movie">
+            <div class="preloader-movie">
+                <img
+                    src="icons/preloader.svg"
+                    alt=""
+                    class="preloader__image"
+                />
+            </div>
             <a href="#" class="modal__close">&times;</a>
             <div class="wrapper">
                 <div class="poster">
@@ -67,7 +77,7 @@
                             <li>
                                 <a
                                     href="#"
-                                    class="header__menu-item"
+                                    class="header__menu-item active"
                                     id="mainPage"
                                     >Главная</a
                                 >
@@ -134,7 +144,7 @@
             </div>
         </header>
         <main class="main">
-            <div class="main__bg"></div>
+            <!-- <div class="main__bg"></div> -->
             <div class="container">
                 <div class="main__header">Всем привет!</div>
                 <div class="main__descr">
@@ -146,13 +156,16 @@
                     ниже:<br />
                     <div class="main__descr-links">
                         <a href="#" class="main__descr-link"
-                            ><img src="icons/github.svg" alt="github"
-                        /></a>
-                        <a href="#" class="main__descr-link"
                             ><img src="icons/telegram.svg" alt="telegram"
                         /></a>
                         <a href="#" class="main__descr-link"
-                            ><img src="icons/email.svg" alt="telegram"
+                            ><img src="icons/instagram.svg" alt="instagram"
+                        /></a>
+                        <a href="#" class="main__descr-link"
+                            ><img src="icons/email.svg" alt="email"
+                        /></a>
+                        <a href="#" class="main__descr-link"
+                            ><img src="icons/github.svg" alt="github"
                         /></a>
                     </div>
                 </div>

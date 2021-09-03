@@ -4,8 +4,15 @@
 @import "base/buttons";
 // @import "libs/normalize";
 
+html {
+    background: url("../img/bg-main.jpg") top center/cover, #020d19;
+    background-repeat: repeat-y;
+    background-blend-mode: color;
+}
+
 body {
     font-family: "Montserrat", sans-serif;
+    background: rgba(0, 0, 0, 0.7);
     &.noscroll {
         overflow: hidden;
     }
@@ -16,6 +23,7 @@ body {
     margin: 0 auto;
 }
 
+@import "blocks/preloader";
 @import "blocks/overlay";
 @import "blocks/header";
 @import "blocks/hamburger";

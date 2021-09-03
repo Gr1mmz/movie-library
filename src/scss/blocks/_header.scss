@@ -1,8 +1,11 @@
 .header {
+    position: fixed;
+    width: 100%;
+    z-index: 150;
     padding: 20px 0;
     background-color: $bg-dark;
-    &__menu,
-    &__account {
+    border-bottom: 1px solid #000;
+    &__menu {
         margin: 0;
         padding: 0;
         list-style-type: none;
@@ -15,6 +18,28 @@
             display: flex;
             align-items: center;
         }
+        &-item {
+            padding: 5px;
+            color: $header-links;
+            transition: all 0.3s;
+            &.active {
+                color: $header-links-hover;
+            }
+            &:hover {
+                color: $header-links-hover;
+                text-decoration: none;
+            }
+        }
+    }
+    &__account {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-transform: uppercase;
+        font-size: 13px;
         &-item {
             padding: 5px;
             color: $header-links;

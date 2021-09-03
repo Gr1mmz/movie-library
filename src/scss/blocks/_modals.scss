@@ -13,22 +13,25 @@
     transition: all 0.5s;
     z-index: -1;
     &_active {
-        z-index: 101;
+        z-index: 201;
         opacity: 1;
     }
     &__movie {
         position: fixed;
-        overflow-y: auto;
         top: 10%;
         left: 10%;
         width: 80vw;
         height: 80vh;
         transform: scale(0);
+        // .movie-loaded .preloader-movie {
+        //     display: none;
+        // }
         &.modal_active {
             transform: scale(1);
         }
         .wrapper {
             display: flex;
+            overflow-y: auto;
             gap: 40px;
             height: 100%;
             width: 100%;
@@ -45,12 +48,14 @@
             .text {
                 width: 70%;
                 .header {
+                    position: relative;
                     margin: 0;
                     padding: 0;
                     background: transparent;
                     font-weight: 700;
                     font-size: 40px;
                     line-height: 45px;
+                    border: none;
                 }
                 .info {
                     margin-top: 10px;
@@ -66,7 +71,6 @@
                 }
                 .descr {
                     margin-top: 10px;
-                    margin-bottom: 35px;
                 }
             }
         }
