@@ -178,3 +178,21 @@
         font-size: 9px;
     }
 }
+.up {
+    position: fixed;
+    height: 50px;
+    width: 50px;
+    right: 25px;
+    bottom: 40px;
+    z-index: 150;
+    cursor: pointer;
+    display: none;
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    &_show {
+        display: block;
+    }
+}

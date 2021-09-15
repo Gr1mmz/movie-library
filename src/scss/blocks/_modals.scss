@@ -55,7 +55,7 @@
                     font-weight: 700;
                     font-size: 40px;
                     line-height: 45px;
-                    border: none;
+                    border-bottom: none;
                 }
                 .info {
                     margin-top: 10px;
@@ -84,7 +84,7 @@
         &.modal_active {
             transform: translate(-50%, -50%) scale(1);
         }
-        .header {
+        &-header {
             margin: 0;
             padding: 0;
             background: transparent;

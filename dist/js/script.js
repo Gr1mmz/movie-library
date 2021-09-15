@@ -112,6 +112,7 @@ const movieLibrary = {
     btnLibrary = document.querySelector("#btnLibrary"),
     btnSearch = document.querySelector(".search-icon"),
     btnAdd = document.querySelector(".btn-add"),
+    btnUp = document.querySelector(".up"),
     overlay = document.querySelector(".overlay"),
     modalClose = document.querySelectorAll(".modal__close"),
     modals = document.querySelectorAll(".modal"),
@@ -126,8 +127,8 @@ const movieLibrary = {
     searchForm = document.getElementById("searchForm"),
     searchInput = document.getElementById("searchInput"),
     hamburger = document.querySelector(".hamburger"),
-    popularMoviesListener = throttle(checkPositionPopular, 200),
-    genreMoviesListener = throttle(checkPositionGenre, 200);
+    popularMoviesListener = throttle(checkPositionPopular, 300),
+    genreMoviesListener = throttle(checkPositionGenre, 300);
 let mainItems = document.querySelectorAll(".main__item"),
     hasMovieInLib = false,
     modalMovieId,
@@ -461,6 +462,26 @@ btnAdd.addEventListener("click", (e) => {
         // console.log(libraryEl);
     }
 });
+
+document.addEventListener("scroll", trackScroll);
+btnUp.addEventListener("click", backToTop);
+
+function trackScroll() {
+    let scrolled = window.pageYOffset;
+    let coords = document.documentElement.clientHeight;
+    if (scrolled > coords) {
+        btnUp.classList.add("up_show");
+    }
+    if (scrolled < coords) {
+        btnUp.classList.remove("up_show");
+    }
+}
+
+function backToTop() {
+    if (window.pageYOffset > 0) {
+        window.scrollTo(0, 0);
+    }
+}
 
 // Modals
 
