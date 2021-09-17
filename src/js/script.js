@@ -236,11 +236,11 @@ function showMovieInfo(data, movieId) {
     if (vote_average > 7) {
         document.querySelector(
             ".modal__movie .wrapper .text .info .rate span"
-        ).style.color = "gold";
+        ).style.color = "green";
     } else if (vote_average <= 7 && vote_average > 5) {
         document.querySelector(
             ".modal__movie .wrapper .text .info .rate span"
-        ).style.color = "green";
+        ).style.color = "yellow";
     } else {
         document.querySelector(
             ".modal__movie .wrapper .text .info .rate span"
@@ -384,7 +384,8 @@ document.querySelectorAll(".header__menu-item").forEach((item) => {
     });
 });
 
-btnLogin.addEventListener("click", () => {
+btnLogin.addEventListener("click", (e) => {
+    e.preventDefault();
     overlay.classList.add("overlay_active");
     modalLogin.classList.add("modal_active");
 });
