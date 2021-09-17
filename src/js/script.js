@@ -273,6 +273,29 @@ function showMovieInfo(data, movieId) {
             ".modal__movie .wrapper .text .descr"
         ).innerHTML = "Описание отсутствует";
     }
+    fetch(BASE_URL + "/movie/" + movieId + "/videos?" + API_KEY + API_LANG)
+        .then((res) => res.json())
+        .then((videoData) => {
+            console.log(videoData);
+            if (videoData) {
+                if (videoData.results.length > 0) {
+                    let embed = [];
+                    videoData.results.forEach((video) => {
+                        let { key, name, site, type } = video;
+                        if (site == "YouTube" && type == "Trailer") {
+                            embed.push(
+                                `<iframe src="https://www.youtube.com/embed/${key}" title="${name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+                            );
+                        }
+                    });
+                    document.querySelector(".trailer__video").innerHTML =
+                        embed.join("");
+                } else {
+                    document.querySelector(".trailer__video").innerHTML =
+                        "Трейлера пока нет";
+                }
+            }
+        });
     modalMovie.classList.add("movie-loaded");
 }
 
@@ -364,7 +387,7 @@ btnSearch.addEventListener("click", () => {
 
 hamburger.addEventListener("click", () => {
     hamburger.classList.toggle("hamburger_active");
-    overlay.classList.toggle("overlay_active");
+    // overlay.classList.toggle("overlay_active");
     document
         .querySelector(".header__menu-wrapper")
         .classList.toggle("header__menu-wrapper_active");
@@ -490,6 +513,7 @@ function closeModals() {
     overlay.classList.remove("overlay_active");
     modals.forEach((item) => {
         item.classList.remove("modal_active");
+        document.querySelector(".trailer__video").innerHTML = "";
     });
     document.querySelector(".modal__movie .wrapper").scrollTop = 0;
     document.body.classList.remove("noscroll");

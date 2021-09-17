@@ -15,6 +15,19 @@
     .container {
         width: 960px;
     }
+    .modal {
+        &__movie {
+            .wrapper {
+                .text {
+                    .trailer {
+                        &__video {
+                            height: 250px;
+                        }
+                    }
+                }
+            }
+        }
+    }
     .main {
         &__movies {
             grid-template-columns: repeat(auto-fit, 200px);
@@ -243,12 +256,26 @@
     .modal {
         &__movie {
             width: 100vw;
+            // height: 90vh;
             left: 0;
         }
     }
 }
 
 @media (max-width: 400px) {
+    .modal {
+        &__movie {
+            .wrapper {
+                .text {
+                    .trailer {
+                        &__video {
+                            height: 150px;
+                        }
+                    }
+                }
+            }
+        }
+    }
     .main {
         &__item {
             &-header {
